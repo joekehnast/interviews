@@ -1,8 +1,36 @@
-﻿Objective:
+Objective:
 	Review the ExampleProgram console application. Do not modify or refactor the code. Instead describe any changes 
 	you think should be made in the section below.Don't spend more than 30 minutes on this entire assignment. 
         Feel free to describe why you made particular design decisions.
 
 
 Suggested Changes:
-	
+
+1)  Instead of sending a string value represtinging the file name I might consider not sending a string value at all.  Rather, 
+I'd consider passing a value into the class via a configuration (e.g. AppSettings class)
+
+2)  Even if you didn't choose the suggestion in #1, you need a "." (ExampleText.txt)
+
+3)  Recommend a try/finally to close the file stream via dispose method
+
+4)  Wrap the reader class in a using statement.	
+
+5)  Wouldn't want a "normal course of action" in a catch statement.  But, if the intent was to make sure the text is emitted to the
+output stream (no matter what - e.g. file not found) then I'd remove all the "text = text + ..." and use a StringBuilder class.
+
+Decisions:
+
+1) allowing the code to accept an argument (or getting from config - "AppSettings") makes the class available to processs ANY text file,
+not just ExampleText.txt.
+
+2) adding the period will eliminate the bug
+
+3) Putting a try/finally ensures the file stream gets properly disposed, even when an exception thrown
+
+4)  Using statement ensures we properly clean up the text reader.  Wouldn't "nest" this with the file stream as there is potential
+to double dispose.
+
+5)  the code, as written, is inefficient.  Strings are immutable and a new string object is created with each assignment statement.  Although
+I wouldn't put this code in the catch statement (again, depends on intent and if you really wanted output if the file stream failed) I'd
+use a string builder.  Also might want to consider string.Format on each string if you wanted to any formatted when you did
+sb.Append in the string builder class.  
